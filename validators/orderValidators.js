@@ -209,6 +209,16 @@ const listOrderQueryRules = [
 		.isIn(['unpaid', 'paid', 'refunded'])
 		.withMessage('Invalid paymentStatus filter'),
 	query('customerEmail').optional().isEmail().withMessage('customerEmail filter must be a valid email'),
+	query('dateFrom')
+		.optional()
+		.isISO8601()
+		.withMessage('dateFrom must be a valid ISO8601 date')
+		.toDate(),
+	query('dateTo')
+		.optional()
+		.isISO8601()
+		.withMessage('dateTo must be a valid ISO8601 date')
+		.toDate(),
 ];
 
 module.exports = {

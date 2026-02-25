@@ -50,6 +50,20 @@ const parseListFilters = (query = {}) => {
 		filters.paymentType = query.paymentType;
 	}
 
+	// Date filter by order createdAt
+	if (query.dateFrom) {
+		const from = query.dateFrom instanceof Date ? query.dateFrom : new Date(query.dateFrom);
+		from.setUTCHours(0, 0, 0, 0);
+		filters.createdAt = filters.createdAt || {};
+		filters.createdAt.$gte = from;
+	}
+	if (query.dateTo) {
+		const to = query.dateTo instanceof Date ? query.dateTo : new Date(query.dateTo);
+		to.setUTCHours(23, 59, 59, 999);
+		filters.createdAt = filters.createdAt || {};
+		filters.createdAt.$lte = to;
+	}
+
 	return filters;
 };
 

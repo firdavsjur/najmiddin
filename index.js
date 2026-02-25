@@ -45,12 +45,9 @@ app.use(helmet());
 // Disable the "X-Powered-By" header to prevent disclosing server technology
 app.disable('x-powered-by');
 
-// Swagger API documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec,{
+// Swagger API documentation (spec is built at startup from route JSDoc — no external url, so server always shows current code)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 	explorer: true,
-	swaggerOptions: {
-	  url: "https://api.najm.uz", // <-- localhost o‘rniga domain
-	}
 }));
 
 // Public/User routes (no authentication required for viewing)

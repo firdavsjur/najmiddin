@@ -46,6 +46,11 @@ router.use(isAdmin);
  *         schema:
  *           type: boolean
  *         description: Filter by active status
+ *       - in: query
+ *         name: discounted
+ *         schema:
+ *           type: boolean
+ *         description: 'If true, sort so discounted products (stock > 0) come first, then non-discounted'
  *     responses:
  *       200:
  *         description: List of matching products
@@ -142,6 +147,11 @@ router.get('/slug/:slug', getProductBySlug);
  *         schema:
  *           type: boolean
  *         description: Filter by active status
+ *       - in: query
+ *         name: discounted
+ *         schema:
+ *           type: boolean
+ *         description: 'If true, sort so discounted products (stock > 0) come first, then non-discounted'
  *     responses:
  *       200:
  *         description: List of products

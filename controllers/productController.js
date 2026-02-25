@@ -38,6 +38,11 @@ const parseListFilters = (query) => {
 	return filters;
 };
 
+const isDiscountedSort = (query) => {
+	const v = query.discounted;
+	return v === true || v === 'true';
+};
+
 const validateProductAttributes = async (categories, attributes) => {
 	if (!categories || categories.length === 0) {
 		// If no categories, attributes are optional
@@ -264,7 +269,10 @@ const createProduct = async (req, res) => {
 const getProducts = async (req, res) => {
 	try {
 		const filters = parseListFilters(req.query);
-		const products = await Product.find(filters).sort({ createdAt: -1 });
+		const sort = isDiscountedSort(req.query)
+			? { stock: -1, createdAt: -1 }
+			: { createdAt: -1 };
+		const products = await Product.find(filters).sort(sort);
 		return res.json({ data: products.map(toJson) });
 	} catch (error) {
 		logger.error('Failed to fetch products', { error });
@@ -441,7 +449,10 @@ const searchProducts = async (req, res) => {
 			}
 		}
 
-		const products = await Product.find(filters).sort({ createdAt: -1 });
+		const sort = isDiscountedSort(req.query)
+			? { stock: -1, createdAt: -1 }
+			: { createdAt: -1 };
+		const products = await Product.find(filters).sort(sort);
 		return res.json({ data: products.map(toJson) });
 	} catch (error) {
 		logger.error('Failed to search products', { error });

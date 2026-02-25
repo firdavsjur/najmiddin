@@ -118,9 +118,16 @@ const productSchema = new Schema(
 	}
 );
 
+// Skidka: stock > 0 bo'lsa tovar skidkali hisoblanadi
+productSchema.virtual('discounted').get(function () {
+	return this.stock > 0;
+});
+
 productSchema.set('toJSON', {
+	virtuals: true,
 	transform(_doc, ret) {
 		ret.id = ret._id.toString();
+		ret.discounted = _doc.stock > 0;
 		delete ret.__v;
 		delete ret._id;
 		return ret;

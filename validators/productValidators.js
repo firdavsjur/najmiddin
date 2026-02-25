@@ -247,6 +247,7 @@ const productIdParamRules = [validateObjectIdParam()];
 
 const listProductQueryRules = [
 	query('isActive').optional().isBoolean().withMessage('isActive must be boolean').toBoolean(),
+	query('discounted').optional().isBoolean().withMessage('discounted must be boolean').toBoolean(),
 ];
 
 const searchProductQueryRules = [
@@ -258,6 +259,7 @@ const searchProductQueryRules = [
 		.isLength({ min: 3 })
 		.withMessage('Search query must be at least 3 character long'),
 	query('isActive').optional().isBoolean().withMessage('isActive must be boolean').toBoolean(),
+	query('discounted').optional().isBoolean().withMessage('discounted must be boolean').toBoolean(),
 ];
 
 module.exports = {

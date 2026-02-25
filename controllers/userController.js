@@ -22,7 +22,8 @@ const parseListFilters = (query) => {
 	}
 
 	if (query.phoneNumber) {
-		filters.phoneNumber = query.phoneNumber;
+		const escaped = String(query.phoneNumber).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		filters.phoneNumber = { $regex: escaped };
 	}
 
 	return filters;
@@ -208,7 +209,9 @@ const addSavedProduct = async (req, res) => {
 	} catch (error) {
 		logger.error('Failed to add saved product', { error });
 		if (error.code === 11000) {
-			return res.status(400).json({ message: 'Product is already in saved list' });
+			return res.status(400).json({
+				message: 'Product is already in saved list',
+			});
 		}
 		return res.status(500).json({
 			message: 'Unable to add product to saved list. Please try again later.',
@@ -297,4 +300,3 @@ module.exports = {
 	removeSavedProduct,
 	getSavedProducts,
 };
-

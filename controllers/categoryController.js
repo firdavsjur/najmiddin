@@ -171,23 +171,26 @@ const getCategoriesWithProducts = async (req, res) => {
 		// Parse sortBy parameter
 		let sortFunction = null;
 		if (req.query.sortBy) {
-			const sortBy = req.query.sortBy.toLowerCase();
-			if (sortBy === 'price-asc' || sortBy === 'price_asc') {
+			const sortBy = req.query.sortBy.toLowerCase().replace(/-/g, '_');
+			if (sortBy === 'price_asc') {
 				sortFunction = (a, b) => (a.price || 0) - (b.price || 0);
-			} else if (sortBy === 'price-desc' || sortBy === 'price_desc') {
+			} else if (sortBy === 'price_desc') {
 				sortFunction = (a, b) => (b.price || 0) - (a.price || 0);
-			} else if (sortBy === 'name-asc' || sortBy === 'name_asc') {
+			} else if (sortBy === 'name_asc') {
 				sortFunction = (a, b) => {
 					const nameA = a.name?.en || a.name?.ru || a.name?.uz || '';
 					const nameB = b.name?.en || b.name?.ru || b.name?.uz || '';
 					return nameA.localeCompare(nameB);
 				};
-			} else if (sortBy === 'name-desc' || sortBy === 'name_desc') {
+			} else if (sortBy === 'name_desc') {
 				sortFunction = (a, b) => {
 					const nameA = a.name?.en || a.name?.ru || a.name?.uz || '';
 					const nameB = b.name?.en || b.name?.ru || b.name?.uz || '';
 					return nameB.localeCompare(nameA);
 				};
+			} else if (sortBy === 'with_discount') {
+				// Skidkali (stock > 0) birinchi, keyin skidkasiz
+				sortFunction = (a, b) => (b.stock > 0 ? 1 : 0) - (a.stock > 0 ? 1 : 0);
 			}
 		}
 

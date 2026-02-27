@@ -176,6 +176,12 @@ const listCategoryQueryRules = [
 		.toLowerCase()
 		.matches(/^[a-z0-9-]+$/)
 		.withMessage('slug filter can only contain lowercase letters, numbers, and dashes'),
+	query('sortBy')
+		.optional()
+		.isString()
+		.trim()
+		.isIn(['price-asc', 'price-desc', 'name-asc', 'name-desc', 'with_discount'])
+		.withMessage('sortBy must be one of: price-asc, price-desc, name-asc, name-desc, with_discount'),
 ];
 
 module.exports = {

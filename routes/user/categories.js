@@ -42,8 +42,8 @@ const {
  *         name: sortBy
  *         schema:
  *           type: string
- *           enum: [price-asc, price-desc, name-asc, name-desc]
- *         description: Sort products by price or name (ascending or descending)
+ *           enum: [price-asc, price-desc, name-asc, name-desc, with_discount]
+ *         description: Sort products by price, name, or put discounted first (with_discount = stock > 0 first)
  *         example: price-asc
  *     responses:
  *       200:
